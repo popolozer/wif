@@ -12,7 +12,7 @@ open class DoodStreamExtractor : ExtractorApi() {
     override val requiresReferer = false
 
     override fun getExtractorUrl(id: String): String {
-        return "$mainUrl/d/$id"
+        return "$mainUrl/e/$id"
     }
 
     override suspend fun getUrl(url: String, referer: String?): List<ExtractorLink>? {
