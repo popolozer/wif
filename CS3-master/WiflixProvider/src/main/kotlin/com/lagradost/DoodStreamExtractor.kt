@@ -15,21 +15,25 @@ open class DoodStreamExtractor : ExtractorApi() {
         return "$mainUrl/e/$id"
     }
 
-    override suspend fun getUrl(url: String, referer: String?): List<ExtractorLink>? {
-        val response0 = app.get(url).text // html of DoodStream page to look for /pass_md5/...
-        val md5 =mainUrl+(Regex("/pass_md5/[^']*").find(response0)?.value ?: return null)  // get https://dood.ws/pass_md5/...
-        val trueUrl = app.get(md5, referer = url).text + "zUEJeL3mUN?token=" + md5.substringAfterLast("/")   //direct link to extract  (zUEJeL3mUN is random)
-        val quality = Regex("\\d{3,4}p").find(response0.substringAfter("<title>").substringBefore("</title>"))?.groupValues?.get(0)
-        return listOf(
-            ExtractorLink(
-                trueUrl,
-                this.name,
-                trueUrl,
-                mainUrl,
-                getQualityFromName(quality),
-                false
-            )
-        ) // links are valid in 8h
+ override suspend fun getUrl(url: String, referer: String?): List<ExtractorLink>? {
+    val response0 = app.get(url).text // html of DoodStream page to look for /pass_md5/...
+    
+    // find the video URL from the JavaScript code
+    val videoUrlRegex = Regex("""dsplayer\.src\(\{type: "video/mp4",src: "(.+?)"\}\)""")
+    val videoUrlMatch = videoUrlRegex.find(response0) ?: return null
 
-    }
+    // get the actual video URL
+    val trueUrl = videoUrlMatch.groupValues[1]
+
+    val quality = Regex("\\d{3,4}p").find(response0.substringAfter("<title>").substringBefore("</title>"))?.groupValues?.get(0)
+    return listOf(
+        ExtractorLink(
+            trueUrl,
+            this.name,
+            trueUrl,
+            mainUrl,
+            getQualityFromName(quality),
+            false
+        )
+    )
 }
