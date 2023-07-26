@@ -387,7 +387,7 @@ class WiflixProvider : MainAPI() {
 
         //posterHeaders = interceptor.getCookieHeaders(url).toMap()
 
-        val movies = document.select("div#dle-content > div.clearfix")
+        val movies = document.select("div#dle-content > div.mov clearfix")
 
         val home =
             movies.mapNotNull { article ->  // avec mapnotnull si un élément est null, il sera automatiquement enlevé de la liste
