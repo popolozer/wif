@@ -372,11 +372,11 @@ class WiflixProvider : MainAPI() {
 
 
     override val mainPage = mainPageOf(
-        Pair("/films-prochainement/page/", "Film Prochainement en Streaming"),
-        Pair("/film-en-streaming/page/", "Top Films cette année"),
-        Pair("/serie-en-streaming/page/", "Top Séries cette année"),
-        Pair("/saison-complete/page/", "Les saisons complètes"),
-        Pair("/film-ancien/page/", "Film zahalé (ancien)")
+        Pair("/films-prochainement/", "Film Prochainement en Streaming"),
+        Pair("/film-en-streaming/", "Top Films cette année"),
+        Pair("serie-en-streaming/", "Top Séries cette année"),
+        Pair("/saison-complete/", "Les saisons complètes"),
+        Pair("/film-ancien", "Film zahalé (ancien)")
     )
 
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
